@@ -1,0 +1,62 @@
+{{#each items}}
+<tr>
+    <th class="text-center">{{this.rowid}}</th>
+    <td class="text-center">{{this.name}}</td>
+    <td class="text-center">{{this.category}}</td>
+    <td class="text-center">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#szerk" data-id={{this.id}}>Szerkesztés</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#törlés" data-id={{this.id}}>Törlés</button>
+    </td>
+</tr>
+{{/each}}
+
+
+<div class="modal" tabindex="-1" role="dialog" id="szerk">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Szerkesztés</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="/updated">
+        <input type="text" name = "itemname" value="megnevezés">
+        <div class="dropdown">
+
+<select name="category" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+  <option value="kert">kert</option>
+  <option value="egyéb">egyéb</option>
+  <option value="otthon">otthon</option>
+</select>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="törlés">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Törlés</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <p>Törölve legyen az elem?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Végleges törlés</button>
+      </div>
+    </div>
+  </div>
+</div>
