@@ -1,14 +1,14 @@
-{{#each items}}
+{{#each inventory}}
 <tr>
-    <th class="text-center">{{this.rowid}}</th>
-    <td class="text-center">{{this.name}}</td>
-    <td class="text-center">{{this.category}}</td>
+    <th class="text-center">{{this.id}}</th>
+    <td class="text-center">{{this.prod_name}}</td>
+    <td class="text-center">{{this.count}}</td>
     <td class="text-center">
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#szerk" data-id={{this.id}}>Szerkesztés</button>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#törlés" data-id={{this.id}}>Törlés</button>
     </td>
 </tr>
-{{/each}}
+
 
 
 <div class="modal" tabindex="-1" role="dialog" id="szerk">
@@ -22,8 +22,12 @@
       </div>
       <div class="modal-body">
         
-<p>Feature incoming</p>
-
+<form method="POST" action="/updatedcount">
+    <input type="hidden"  name="prod_name" value={{this.prod_name}}>
+    <label>Mennyiség: </label>
+        <input type="number" name = "itemcount" value= {{this.count}}>
+        
+      
 </div>
       
       <div class="modal-footer">
@@ -34,7 +38,7 @@
     </div>
   </div>
 </div>
-
+{{/each}}
 <div class="modal" tabindex="-1" role="dialog" id="törlés">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
