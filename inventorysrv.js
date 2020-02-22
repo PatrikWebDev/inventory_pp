@@ -17,9 +17,6 @@ const inventory = []
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*app.get('/', (req, res) => {
-	res.render('home', { items});
-});*/
 
 app.get('/', (req, res)=>{
 	res.redirect('/products')
