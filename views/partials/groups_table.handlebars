@@ -1,20 +1,30 @@
-{{#each items}}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Megnevezés</th>
+                <th class="text-center">Műveletek</th>
+            </tr>
+        </thead>
+        <tbody>
+{{#each groups}}
 <tr>
-    <!--<th class="text-center">{{this.rowid}}</th>-->
-    <td class="text-center">{{this.id}}</td>
-    <td class="text-center">{{this.name}}</td>
-    <td class="text-center">{{this.category}}</td>
+    <th class="text-center">{{this.rowid}}</th>
     <td class="text-center">{{this.description}}</td>
     <td class="text-center">
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{this.name}}"  data-id={{this.id}}>Szerkesztés</button>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#{{this.name}}{{this.rowid}}" data-id={{this.id}}>Törlés</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{this.description}}{{this.rowid}}"  data-id={{this.id}}>Szerkesztés</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#{{this.description}}{{this.rowid}}{{this.description}}" data-id={{this.id}}>Törlés</button>
     </td>
     </tr>
 {{/each}}
+</tbody>
+    </table>
+</div>
 
-
-{{#each items}}
-<div class="modal" tabindex="-1" role="dialog" id={{this.name}}>
+{{#each groups}}
+<div class="modal" tabindex="-1" role="dialog" id={{this.description}}{{this.rowid}}>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -26,16 +36,10 @@
       </div>
       <div class="modal-body">
         <p>Forbidden characters: Whitespace ! " # % & ' ( ) * + , . / ; < = > @ [ \ ] ^ ` { | } ~</p>
-<form method="POST" action="/changes">
-<label>Megnevezés</label>
-<input type="hidden" name="rowid" value={{this.id}}>
-<input type="hidden" name="old_category" value={{this.category}}>
-<input type="text" name="newname" value={{this.name}}><br>
+<form method="POST" action="/groupmod">
 <label>Description</label>
-<input type="hidden" name="old_description" value={{this.description}}>
+<input type="hidden" name="identifier" value={{this.identifier}}>
 <input type="text" name="new_description" value={{this.description}}><br>
-<label>Category</label>
-<input type="text" name="newcategory" value= {{this.category}}>
 
 </div>
       
@@ -49,8 +53,8 @@
 </div>
 
 {{/each}}
-{{#each items}}
-<div class="modal" tabindex="-1" role="dialog" id="{{this.name}}{{this.rowid}}">
+{{#each groups}}
+<div class="modal" tabindex="-1" role="dialog" id="{{this.description}}{{this.rowid}}{{this.description}}">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -61,8 +65,9 @@
       </div>
       <div class="modal-body">
        <p>Törölve legyen az elem?</p>
-       <form method="POST" action="/deleted">
+       <form method="POST" action="/deletedgroup">
        <input type="hidden" name="rowid" value={{this.rowid}}>
+       <input type="hidden" name="identifier" value={{this.identifier}}>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
