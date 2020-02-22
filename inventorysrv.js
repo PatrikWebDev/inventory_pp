@@ -65,12 +65,12 @@ app.post('/updated', (req, res)=>{
 })
 
 app.post('/updatedcount', (req, res)=>{
-	const { itemcount, prod_name } = req.body
-	console.log(itemcount, prod_name)
+	const { itemcount, rowid, itemname } = req.body
+	console.log(itemcount, rowid)
 	db.serialize(function(){
 
-		db.prepare(`UPDATE inventory SET count = ${itemcount} WHERE prod_name = ${prod_name}`)
-            .run(`${itemcount}`, `${prod_name}`)
+		db.prepare(`UPDATE inventory SET stock = "${itemcount}" WHERE id = "${rowid}" AND `)
+            .run(`${itemcount}`, `${rowid}`)
 	}
 	)
 	res.redirect('/stocks')

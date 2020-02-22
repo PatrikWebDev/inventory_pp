@@ -28,7 +28,7 @@ function database2( groupdescription, identifierpm ){
 db.run("CREATE TABLE IF NOT EXISTS groups (description VARCHAR(100) NOT NULL, identifier VARCHAR(100) NOT NULL)")
      
         db.prepare('INSERT INTO groups (description, identifier) VALUES (?, ?)')
-            .run(`${groupdescription}`, `${identifierpm}`)
+            .run(`${groupdescription}` ,`${identifierpm}`)
 
     })
 }
