@@ -17,11 +17,12 @@
         <div class="dropdown">
 
 <select name="category" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><br>
-  <option value="kert">kert</option>
-  <option value="egyéb">egyéb</option>
-  <option value="otthon">otthon</option>
-  <br><input type="text" name = "description" value="Leírás">
+  {{#each categories}}
+  <option value="{{this.description}}">{{{this.description}}}</option>
+  {{/each}}
 </select>
+
+  <br><input type="text" name = "description" value="Leírás">
 </div>
       </div>
       <div class="modal-footer">

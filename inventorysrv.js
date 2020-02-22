@@ -16,6 +16,19 @@ app.use(express.urlencoded())
 const items = [];
 const inventory = [];
 const groups = [];
+let categories =[];
+
+function categorising(){
+    db.serialize(function() {
+		db.all("SELECT description, rowid FROM groups", function(err, results) {
+			console.log(results)
+		categories = results
+	})
+	  })};
+	  
+categorising()
+console.log(categories)
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -31,8 +44,8 @@ app.get('/products', (req, res) => {
                 res.send("Missing from database")
             }
 			items.push(results)
-			console.log(results)
-          res.render('home', {items:results})
+			console.log(categories)
+          res.render('home', {items:results, categories: categories}, )
             
         });
       });
