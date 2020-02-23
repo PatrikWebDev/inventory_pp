@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('inventory.db')
 const uuidv4 = require('uuid/v4');
-/*
+
 function database(namepm, categorypm, descriptionpm){
     db.serialize(function() {
         db.run("CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(100) NOT NULL, category VARCHAR(60) NOT NULL, description VARCHAR(100) NOT NULL)")
@@ -34,7 +34,7 @@ db.run("CREATE TABLE IF NOT EXISTS groups (description VARCHAR(100) NOT NULL, id
 }
 
 database2("telefonok", uuidv4())
-*/
+
 
 function categorising(){
     db.serialize(function() {

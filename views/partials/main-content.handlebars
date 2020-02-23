@@ -1,20 +1,24 @@
 <div class="table-responsive">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" id="table"
+  data-toggle="table"
+   data-sort-name="name"
+  data-sort-order="desc"
+   data-search="true"
+   data-pagination="true">
         <thead class="thead-light">
             <tr>
-                <th class="text-center">ID</th>
-                <th class="text-center">Megnevezés</th>
-                <th class="text-center">Csoport</th>
-                <th class="text-center">Leírás</th>
-                <th class="text-center">Műveletek</th>
+                <th class="text-center"data-field="id" data-sortable="true">ID</th>
+                <th class="text-center"data-field="name" data-sortable="true">Megnevezés</th>
+                <th class="text-center"data-sortable="true">Csoport</th>
+                <th class="text-center" data-field="description" data-sortable="true">Leírás</th>
+                <th class="text-center"data-sortable="true">Műveletek</th>
             </tr>
         </thead>
-        <tbody>
-            {{> table_data}}
+        <tbody >
+            {{> table_data }}
         </tbody>
     </table>
 </div>
 
 {{> footer }}
 
-{{> pagination}}

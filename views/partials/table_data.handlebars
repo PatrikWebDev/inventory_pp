@@ -1,13 +1,14 @@
+
 {{#each items}}
 <tr>
     <!--<th class="text-center">{{this.rowid}}</th>-->
     <td class="text-center">{{this.id}}</td>
-    <td class="text-center">{{this.name}}</td>
+    <td class="text-center" >{{this.name}}</td>
     <td class="text-center">{{this.category}}</td>
     <td class="text-center">{{this.description}}</td>
     <td class="text-center">
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{this.name}}"  data-id={{this.id}}>Szerkesztés</button>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#{{this.name}}{{this.rowid}}" data-id={{this.id}}>Törlés</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#gjvhgvh{{this.id}}" data-id={{this.id}}>Törlés</button>
     </td>
     </tr>
 {{/each}}
@@ -34,9 +35,10 @@
 <label>Description</label>
 <input type="hidden" name="old_description" value={{this.description}}>
 <input type="text" name="new_description" value={{this.description}}><br>
-<label>Category</label>
-<input type="text" name="newcategory" value= {{this.category}}>
 
+<label>Category</label>
+<!--<input type="text" name="newcategory" value= {{this.category}}>-->
+{{> category_selecting }}
 </div>
       
       <div class="modal-footer">
@@ -47,10 +49,10 @@
     </div>
   </div>
 </div>
-
 {{/each}}
+
 {{#each items}}
-<div class="modal" tabindex="-1" role="dialog" id="{{this.name}}{{this.rowid}}">
+<div class="modal" tabindex="-1" role="dialog" id="gjvhgvh{{this.id}}">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -62,7 +64,7 @@
       <div class="modal-body">
        <p>Törölve legyen az elem?</p>
        <form method="POST" action="/deleted">
-       <input type="hidden" name="rowid" value={{this.rowid}}>
+       <input type="hidden" name="rowid" value={{this.id}}>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

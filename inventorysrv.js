@@ -13,10 +13,12 @@ app.set('view engine', 'handlebars');
 
 app.use(express.urlencoded())
 
+
 const items = [];
 const inventory = [];
 const groups = [];
 let categories =[];
+
 
 function categorising(){
     db.serialize(function() {
@@ -44,8 +46,8 @@ app.get('/products', (req, res) => {
                 res.send("Missing from database")
             }
 			items.push(results)
-			console.log(categories)
-          res.render('home', {items:results, categories: categories}, )
+			console.log(results, categories)
+          res.render('home', {items:results, categories} )
             
         });
       });
@@ -70,7 +72,7 @@ app.post('/updated', (req, res)=>{
 	const {itemname, category, description } = req.body
 	db.serialize(function(){
 
-		db.prepare('INSERT INTO products VALUES (?, ?, ?)')
+		db.prepare('INSERT INTO products (name, category,description) VALUES ( ?, ?, ?)')
             .run(`${itemname}`, `${category}`, `${description}`)
 	}
 	)
@@ -153,4 +155,7 @@ app.post('/deletedgroup', (req, res)=>{
 })
 
 app.listen(PORT, () => console.log(`App is started and listening on port ${PORT}`));
+
+
+
 
