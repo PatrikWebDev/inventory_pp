@@ -4,7 +4,7 @@ const path = require('path');
 const hbs = require('express-handlebars');
 const uuidv4 = require('uuid/v4');
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('inventory.db')
+const db = new sqlite3.Database('inventory4.db')
 const PORT = 3000;
 const app = express();
 app.use(express.json());
@@ -41,7 +41,7 @@ app.get('/', (req, res)=>{
 
 app.get('/products', (req, res) => {
     db.serialize(function() {
-        db.all("SELECT rowid, name, category, description from products", function(err, results) {
+        db.all("SELECT id, name, category, description from products", function(err, results) {
             if (err != null) {
                 res.send("Missing from database")
             }
@@ -57,9 +57,9 @@ app.get('/products', (req, res) => {
 app.get('/stocks', (req, res)=>{
 	db.serialize(function() {
         db.all("SELECT products.id, products.name, products.category, inventory.stock FROM products JOIN inventory ON products.id = inventory.product_id", function(err, results) {
-           /* if (err != null) {
+            if (err != null) {
                 res.send("Missing from database")
-            }*/
+            }
 			inventory.push(results)
 			console.log(results)
           	res.render('inventory_page', {inventory:results})
@@ -80,19 +80,19 @@ app.post('/updated', (req, res)=>{
 })
 
 app.post('/updatedcount', (req, res)=>{
-	const { itemcount, rowid, itemname } = req.body
-	console.log(itemcount, rowid)
+	const { itemcount, id } = req.body
+	console.log(itemcount, id)
 	db.serialize(function(){
 
-		db.prepare(`UPDATE inventory SET stock = "${itemcount}" WHERE id = "${rowid}" AND `)
-            .run(`${itemcount}`, `${rowid}`)
-	}
+		db.prepare(`UPDATE inventory SET stock = "${itemcount}"WHERE product_id = "${id}" `)
+            .run(`${itemcount}`, `${id}`)
+	} 
 	)
 	res.redirect('/stocks')
 })
 
 app.post('/changes', (req,res)=>{
-	const {newname, newcategory, rowid, old_category, new_description, old_description} = req.body
+	const {newname, newcategory, rowid, old_category, new_description} = req.body
 	console.log(`az új név ${newname}`)
 	let sqlString = `UPDATE products SET name = "${newname}" , category = "${newcategory}" , description = "${new_description}" where  rowid="${rowid}" AND  category="${old_category}"`
 	console.log(sqlString)
@@ -159,3 +159,6 @@ app.listen(PORT, () => console.log(`App is started and listening on port ${PORT}
 
 
 
+db.serialize(function(){
+	db.run(`DELETE FROM products WHERE  name = "vasalo"`);
+})
