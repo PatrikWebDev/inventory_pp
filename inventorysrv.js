@@ -83,7 +83,7 @@ app.post('/updatedcount', (req, res)=>{
 	const { itemcount, id, oldcount } = req.body
 	console.log(itemcount, id, !(oldcount))
 	if(!(oldcount)){
-		db.run(`UPDATE inventory (stock) VALUES (${itemcount}) WHERE product_id = ${id} `)
+		db.run(`REPLACE into inventory (product_id, stock) VALUES(${id}, ${itemcount})`)
 	}
 	db.serialize(function(){
 let sql = `UPDATE inventory SET stock = ${itemcount} WHERE product_id = ${id} `
