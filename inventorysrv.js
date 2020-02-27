@@ -56,11 +56,11 @@ app.get('/products', (req, res) => {
 
 app.get('/stocks', (req, res)=>{
 	db.serialize(function() {
-        db.all("SELECT products.id, products.name, products.category, inventory.stock FROM products JOIN inventory ON products.id = inventory.product_id", function(err, results) {
+        db.all("SELECT products.id, products.name, products.category, inventory.stock FROM products Left JOIN inventory ON products.id = inventory.product_id", function(err, results) {
             if (err != null) {
                 res.send("Missing from database")
             }
-			inventory.push(results)
+		
 			console.log(results)
           	res.render('inventory_page', {inventory:results})
             
@@ -80,12 +80,17 @@ app.post('/updated', (req, res)=>{
 })
 
 app.post('/updatedcount', (req, res)=>{
-	const { itemcount, id } = req.body
-	console.log(itemcount, id)
+	const { itemcount, id, oldcount } = req.body
+	console.log(itemcount, id, !(oldcount))
+	if(!(oldcount)){
+		db.run(`UPDATE inventory (stock) VALUES (${itemcount}) WHERE product_id = ${id} `)
+	}
 	db.serialize(function(){
-
-		db.prepare(`UPDATE inventory SET stock = "${itemcount}"WHERE product_id = "${id}" `)
-            .run(`${itemcount}`, `${id}`)
+let sql = `UPDATE inventory SET stock = ${itemcount} WHERE product_id = ${id} `
+//let sql = "UPDATE inventory SET stock = 185 WHERE product_id = 4"
+console.log(sql)
+		db.run(`${sql} `)
+            //.run(`${itemcount}`, `${id}`)
 	} 
 	)
 	res.redirect('/stocks')
@@ -128,7 +133,7 @@ app.post('/newgroup', (req, res)=>{
 	const { group_dep } = req.body
 	db.serialize(function(){
 
-		db.prepare('INSERT INTO groups VALUES (?, ?)')
+		db.prepare('INSERT INTO groups(description, identifier) VALUES (?, ?)')
             .run(`${group_dep}`, `${uuidv4()}`)
 	}
 	)

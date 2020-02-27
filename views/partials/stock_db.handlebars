@@ -25,6 +25,7 @@
 <form method="POST" action="/updatedcount">
    <input type="hidden" name="itemname" value={{this.name}}>
     <input type="hidden" name="id" value={{this.id}}>
+    <input type="hidden" name="oldcount" value={{this.stock}}>
     <label>Mennyiség: </label>
         <input type="number" name = "itemcount" value= {{this.stock}}>
         
