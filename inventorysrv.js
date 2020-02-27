@@ -15,21 +15,20 @@ app.use(express.urlencoded())
 
 
 const items = [];
-const inventory = [];
 const groups = [];
 let categories =[];
 
 
 function categorising(){
     db.serialize(function() {
-		db.all("SELECT description, rowid FROM groups", function(err, results) {
-			console.log(results)
+		db.all("SELECT description, id FROM groups", function(err, results) {
+			console.log("categorising :", results)
 		categories = results
 	})
-	  })};
+	  })
+	return categories};
 	  
 categorising()
-console.log(categories)
 
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -44,10 +43,11 @@ app.get('/products', (req, res) => {
         db.all("SELECT id, name, category, description from products", function(err, results) {
             if (err != null) {
                 res.send("Missing from database")
-            }
-			items.push(results)
+			}
+			categorising()
+			
 			console.log(results, categories)
-          res.render('home', {items:results, categories} )
+          res.render('home', {items:results, categories: categorising} )
             
         });
       });
