@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('inventory6.db')
+const db = new sqlite3.Database('inventory43.db')
 const uuidv4 = require('uuid/v4');
 
 function updated (req, res){
@@ -11,13 +11,17 @@ function updated (req, res){
 }
 
 function updatedcount (req, res){
-	const { itemcount, id, oldcount, raktar } = req.body
-	console.log(itemcount, id, !(oldcount))
-	if(!(oldcount)){
-		db.run(`REPLACE into ${raktar} (product_id, stock) VALUES(${id}, ${itemcount})`)
+    const { itemcount, id, oldcount, oldcount2, raktar } = req.body
+    let stock = "stock"
+    if (raktar == "inventory2"){
+        stock = "stock2"
+    }
+	console.log(itemcount, id, !(oldcount) || !(oldcount2))
+	if(!(oldcount) || !(oldcount2)){
+		db.run(`REPLACE into ${raktar} (product_id, ${stock}) VALUES(${id}, ${itemcount})`)
 	}
 	db.serialize(function(){
-let sql = `UPDATE ${raktar} SET stock = ${itemcount} WHERE product_id = ${id} `
+let sql = `UPDATE ${raktar} SET ${stock} = ${itemcount} WHERE id = ${id} `
 console.log(sql)
 		db.run(`${sql} `)
 	} 

@@ -6,7 +6,7 @@
     <td class="text-center">{{this.stock2}}</td>
     <td class="text-center">
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#abc{{this.id}}" data-id={{this.id}}>Szerkesztés</button>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#törlés" data-id={{this.id}}>Törlés</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#cba{{this.id}}" data-id={{this.id}}>Törlés</button>
     </td>
 </tr>
 
@@ -27,6 +27,7 @@
    <input type="hidden" name="itemname" value={{this.name}}>
     <input type="hidden" name="id" value={{this.id}}>
     <input type="hidden" name="oldcount" value={{this.stock}}>
+    <input type="hidden" name="oldcount2" value={{this.stock}}>
     <label>Mennyiség: </label>
         <input type="number" name = "itemcount" value= {{this.stock}}>
 <select name="raktar" >
@@ -45,8 +46,10 @@
     </div>
   </div>
 </div>
-{{/each}}
-<div class="modal" tabindex="-1" role="dialog" id="törlés">
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="#cba{{this.id}}">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -59,9 +62,13 @@
        <p>Törölve legyen az elem?</p>
       </div>
       <div class="modal-footer">
+        <form method="POST" action="/deleted">
+        <input type="hidden" value="{{this.id}}", name="rowid">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Végleges törlés</button>
+        </form>
       </div>
     </div>
   </div>
 </div>
+{{/each}}
