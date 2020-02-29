@@ -9,7 +9,7 @@
             </tr>
         </thead>
         <tbody>
-{{#each groups}}
+{{#each groupsarray}}
 <tr>
     <th class="text-center">{{this.id}}</th>
     <td class="text-center">{{this.description}}</td>
@@ -23,7 +23,7 @@
     </table>
 </div>
 
-{{#each groups}}
+{{#each groupsarray}}
 <div class="modal" tabindex="-1" role="dialog" id={{this.description}}{{this.rowid}}>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -53,7 +53,7 @@
 </div>
 
 {{/each}}
-{{#each groups}}
+{{#each groupsarray}}
 <div class="modal" tabindex="-1" role="dialog" id="{{this.description}}{{this.rowid}}{{this.description}}">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

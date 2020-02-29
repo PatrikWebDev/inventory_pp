@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('inventory4.db')
+const db = new sqlite3.Database('inventory6.db')
 const uuidv4 = require('uuid/v4');
 
 function updated (req, res){
@@ -11,13 +11,13 @@ function updated (req, res){
 }
 
 function updatedcount (req, res){
-	const { itemcount, id, oldcount } = req.body
+	const { itemcount, id, oldcount, raktar } = req.body
 	console.log(itemcount, id, !(oldcount))
 	if(!(oldcount)){
-		db.run(`REPLACE into inventory (product_id, stock) VALUES(${id}, ${itemcount})`)
+		db.run(`REPLACE into ${raktar} (product_id, stock) VALUES(${id}, ${itemcount})`)
 	}
 	db.serialize(function(){
-let sql = `UPDATE inventory SET stock = ${itemcount} WHERE product_id = ${id} `
+let sql = `UPDATE ${raktar} SET stock = ${itemcount} WHERE product_id = ${id} `
 console.log(sql)
 		db.run(`${sql} `)
 	} 
@@ -47,7 +47,7 @@ function deleted (req, res){
 function newgroup (req, res){
 	const { group_dep } = req.body
 	db.serialize(function(){
-		db.run(`INSERT INTO groups (description, identifier) VALUES (${group_dep}, ${uuidv4()})`)
+		db.run(`INSERT INTO groups (description, identifier) VALUES ("${group_dep}", "${uuidv4()}")`)
     })
 	res.redirect('/groups')
 }

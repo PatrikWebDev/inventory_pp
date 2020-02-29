@@ -3,6 +3,7 @@
     <th class="text-center">{{this.id}}</th>
     <td class="text-center">{{this.name}}</td>
     <td class="text-center">{{this.stock}}</td>
+    <td class="text-center">{{this.stock2}}</td>
     <td class="text-center">
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#abc{{this.id}}" data-id={{this.id}}>Szerkesztés</button>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#törlés" data-id={{this.id}}>Törlés</button>
@@ -28,6 +29,10 @@
     <input type="hidden" name="oldcount" value={{this.stock}}>
     <label>Mennyiség: </label>
         <input type="number" name = "itemcount" value= {{this.stock}}>
+<select name="raktar" >
+  <option value="inventory">Raktár 1</option>
+  <option value="inventory2">Raktár 2</option>
+</select>
         
       
 </div>
