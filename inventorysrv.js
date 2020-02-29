@@ -1,10 +1,10 @@
 const express = require('express');
-
 const path = require('path');
 const hbs = require('express-handlebars');
-const uuidv4 = require('uuid/v4');
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('inventory4.db')
+const post_router = require('./routers/post_routers');
+const get_router = require('./routers/get_routers');
+
+
 const PORT = 3000;
 const app = express();
 app.use(express.json());
@@ -12,158 +12,29 @@ app.engine('handlebars', hbs());
 app.set('view engine', 'handlebars');
 
 app.use(express.urlencoded())
-
-
-const items = [];
-const groups = [];
-let categories =[];
-
-
-function categorising(){
-    db.serialize(function() {
-		db.all("SELECT description, id FROM groups", function(err, results) {
-			console.log("categorising :", results)
-		categories = results
-	})
-	  })
-	return categories};
-	  
-categorising()
-
-
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+// GET PARTS
 app.get('/', (req, res)=>{
 	res.redirect('/products')
 })
+app.get('/products', get_router.products)
+app.get('/stocks',get_router.stocks)
+app.get('/groups',get_router.groups)
 
-app.get('/products', (req, res) => {
-    db.serialize(function() {
-        db.all("SELECT id, name, category, description from products", function(err, results) {
-            if (err != null) {
-                res.send("Missing from database")
-			}
-			categorising()
-			
-			console.log(results, categories)
-          res.render('home', {items:results, categories: categorising} )
-            
-        });
-      });
+//POST PARTS
 
-})
+app.post('/updated', post_router.updated)
+app.post('/updatedcount', post_router.updatedcount)
+app.post('/changes', post_router.changes)
+app.post('/deleted', post_router.deleted)
+app.post('/newgroup', post_router.newgroup)
+app.post('/groupmod', post_router.groupmod)
+app.post('/deletedgroup',post_router.deletedgroup)
 
-app.get('/stocks', (req, res)=>{
-	db.serialize(function() {
-        db.all("SELECT products.id, products.name, products.category, inventory.stock FROM products Left JOIN inventory ON products.id = inventory.product_id", function(err, results) {
-            if (err != null) {
-                res.send("Missing from database")
-            }
-		
-			console.log(results)
-          	res.render('inventory_page', {inventory:results})
-            
-        });
-      });
-})
-
-app.post('/updated', (req, res)=>{
-	const {itemname, category, description } = req.body
-	db.serialize(function(){
-
-		db.prepare('INSERT INTO products (name, category,description) VALUES ( ?, ?, ?)')
-            .run(`${itemname}`, `${category}`, `${description}`)
-	}
-	)
-	res.redirect('/products')
-})
-
-app.post('/updatedcount', (req, res)=>{
-	const { itemcount, id, oldcount } = req.body
-	console.log(itemcount, id, !(oldcount))
-	if(!(oldcount)){
-		db.run(`REPLACE into inventory (product_id, stock) VALUES(${id}, ${itemcount})`)
-	}
-	db.serialize(function(){
-let sql = `UPDATE inventory SET stock = ${itemcount} WHERE product_id = ${id} `
-//let sql = "UPDATE inventory SET stock = 185 WHERE product_id = 4"
-console.log(sql)
-		db.run(`${sql} `)
-            //.run(`${itemcount}`, `${id}`)
-	} 
-	)
-	res.redirect('/stocks')
-})
-
-app.post('/changes', (req,res)=>{
-	const {newname, newcategory, rowid, old_category, new_description} = req.body
-	console.log(`az új név ${newname}`)
-	let sqlString = `UPDATE products SET name = "${newname}" , category = "${newcategory}" , description = "${new_description}" where  rowid="${rowid}" AND  category="${old_category}"`
-	console.log(sqlString)
-	db.serialize(function(){
-		db.run(sqlString)
-	})
-	res.redirect('/products')
-})
-
-app.post('/deleted', (req, res)=>{
-	const {rowid} = req.body;
-	db.serialize(function(){
-		db.run(`DELETE FROM products WHERE  rowid = "${rowid}"`)
-	})
-	res.redirect('/products')
-})
-
-app.get('/groups',(req, res)=>{
-	db.serialize(function() {
-        db.all("SELECT rowid, description, identifier from groups", function(err, results) {
-            if (err != null) {
-                res.send("Missing from database")
-            }
-			groups.push(results)
-			console.log(results)
-          res.render('groups_page', {groups:results})
-            
-        });
-      });
-})
-
-app.post('/newgroup', (req, res)=>{
-	const { group_dep } = req.body
-	db.serialize(function(){
-
-		db.prepare('INSERT INTO groups(description, identifier) VALUES (?, ?)')
-            .run(`${group_dep}`, `${uuidv4()}`)
-	}
-	)
-	res.redirect('/groups')
-})
-
-app.post('/groupmod', (req, res)=>{
-	const { new_description, identifier} = req.body
-	console.log(`az új név ${identifier}`)
-	let sqlString = `UPDATE groups SET description = "${new_description}" where  identifier="${identifier}"`
-	console.log(sqlString)
-	db.serialize(function(){
-		db.run(sqlString)
-	})
-	res.redirect('/groups')
-})
-
-app.post('/deletedgroup', (req, res)=>{
-	const {rowid, identifier} = req.body;
-	db.serialize(function(){
-		db.run(`DELETE FROM groups WHERE  rowid = "${rowid}" AND identifier ="${identifier}"`)
-	})
-	res.redirect('/groups')
-})
 
 app.listen(PORT, () => console.log(`App is started and listening on port ${PORT}`));
-
-
-
-
+/*
 db.serialize(function(){
 	db.run(`DELETE FROM products WHERE  name = "vasalo"`);
-})
+})*/
