@@ -24,8 +24,6 @@ function products(req, res) {
             if (err != null) {
                 res.send("Missing from database")
             }
-            //categorising()
-
             console.log(results, categories)
             res.render('home', { items: results, categories: categorising })
 

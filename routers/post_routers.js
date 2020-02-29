@@ -5,11 +5,8 @@ const uuidv4 = require('uuid/v4');
 function updated (req, res){
 	const {itemname, category, description } = req.body
 	db.serialize(function(){
-
-		db.prepare('INSERT INTO products (name, category,description) VALUES ( ?, ?, ?)')
-            .run(`${itemname}`, `${category}`, `${description}`)
-	}
-	)
+		db.run(`INSERT INTO products (name, category,description) VALUES (${itemname}, ${category}, ${description})`)
+	})
 	res.redirect('/products')
 }
 
@@ -50,10 +47,8 @@ function deleted (req, res){
 function newgroup (req, res){
 	const { group_dep } = req.body
 	db.serialize(function(){
-		db.prepare('INSERT INTO groups (description, identifier) VALUES (?, ?)')
-            .run(`${group_dep}`, `${uuidv4()}`)
-	}
-	)
+		db.run(`INSERT INTO groups (description, identifier) VALUES (${group_dep}, ${uuidv4()})`)
+    })
 	res.redirect('/groups')
 }
 
