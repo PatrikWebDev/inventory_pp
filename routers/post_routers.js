@@ -30,9 +30,9 @@ console.log(sql)
 }
 
 function changes (req,res){
-	const {newname, newcategory, rowid, old_category, new_description} = req.body
+	const {newname, newcategory, rowid, new_description} = req.body
 	console.log(`az új név ${newname}`)
-	let sqlString = `UPDATE products SET name = "${newname}" , category = "${newcategory}" , description = "${new_description}" where  rowid="${rowid}" AND  category="${old_category}"`
+	let sqlString = `UPDATE products SET name = "${newname}" , category = "${newcategory}" , description = "${new_description}" where  rowid="${rowid}"`
 	console.log(sqlString)
 	db.serialize(function(){
 		db.run(sqlString)

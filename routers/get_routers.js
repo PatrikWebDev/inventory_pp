@@ -39,7 +39,7 @@ function stocks(req, res) {
                 res.send("Missing from database")
             }
             console.log(results)
-            res.render('inventory_page', { inventory: results })
+            res.render('inventory_page', { inventory: results, categories: categorising })
         });
     });
 }
