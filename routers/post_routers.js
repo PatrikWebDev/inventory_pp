@@ -1,25 +1,29 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('inventory43.db')
+const db = new sqlite3.Database('inventory45.db')
 const uuidv4 = require('uuid/v4');
+function waiting(){}
 
 function updated (req, res){
-	const {itemname, category, description } = req.body
+	const {itemname, category, productdescription } = req.body
 	db.serialize(function(){
-		db.run(`INSERT INTO products (name, category,description) VALUES (${itemname}, ${category}, ${description})`)
+		db.run(`INSERT INTO products (name, category_id, productdescription) VALUES ("${itemname}", "${category}", "${productdescription}")`)
+		setTimeout(waiting, 3000)
+		db.all(`SELECT id FROM products WHERE name = "${itemname}"`, function (err, results) {
+            let ertek = results[0].id
+            db.run(`INSERT INTO inventory (product_id, stock) VALUES ("${ertek}", 1)`)
+            db.run(`INSERT INTO inventory2 (product_id, stock2) VALUES ("${ertek}", 1)`)
+        })
+		
 	})
 	res.redirect('/products')
 }
 
 function updatedcount (req, res){
-    const { itemcount, id, oldcount, oldcount2, raktar } = req.body
+    const { itemcount, id, raktar } = req.body
     let stock = "stock"
     if (raktar == "inventory2"){
         stock = "stock2"
     }
-	console.log(itemcount, id, !(oldcount) || !(oldcount2))
-	if(!(oldcount) || !(oldcount2)){
-		db.run(`REPLACE into ${raktar} (product_id, ${stock}) VALUES(${id}, ${itemcount})`)
-	}
 	db.serialize(function(){
 let sql = `UPDATE ${raktar} SET ${stock} = ${itemcount} WHERE id = ${id} `
 console.log(sql)
@@ -32,7 +36,7 @@ console.log(sql)
 function changes (req,res){
 	const {newname, newcategory, rowid, new_description} = req.body
 	console.log(`az új név ${newname}`)
-	let sqlString = `UPDATE products SET name = "${newname}" , category = "${newcategory}" , description = "${new_description}" where  rowid="${rowid}"`
+	let sqlString = `UPDATE products SET name = "${newname}" , category_id = "${newcategory}" , productdescription = "${new_description}" where  rowid="${rowid}"`
 	console.log(sqlString)
 	db.serialize(function(){
 		db.run(sqlString)

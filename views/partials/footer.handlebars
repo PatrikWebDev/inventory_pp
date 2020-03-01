@@ -12,17 +12,17 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="/updated">
+<form method="POST" action="/updated">
         <input type="text" name = "itemname" value="megnevezés">
         <div class="dropdown">
 
 <select name="category">
   {{#each categories}}
-  <option value="{{this.description}}">{{{this.description}}}</option>
+  <option value="{{this.identifier}}">{{{this.description}}}</option>
   {{/each}}
 </select>
-
-  <br><input type="text" name = "description" value="Leírás">
+ <br>
+<input type="text" name = "productdescription" value="Leírás">
 </div>
       </div>
       <div class="modal-footer">
