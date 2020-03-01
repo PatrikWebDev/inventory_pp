@@ -1,6 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('inventory45.db')
-const uuidv4 = require('uuid/v4');
+const db = new sqlite3.Database('inventoryF.db')
 
 function creation() {
     db.serialize(function () {
@@ -15,7 +14,6 @@ function creation() {
     })
 }
 
-creation()
 
 function category(groupdescription, identifierpm) {
     db.serialize(function () {
@@ -24,9 +22,6 @@ function category(groupdescription, identifierpm) {
     }
     )
 };
-
-
-category("Haztartas", `${uuidv4()}`)
 
 function database(namepm, descriptionpm) {
     db.serialize(function () {
@@ -39,22 +34,25 @@ function database(namepm, descriptionpm) {
     })
 }
 
-database("vasalo", "vasal")
-
-
-setTimeout( inventories, 3000)
-
 function inventories() {
     db.serialize(function () {
 
         db.all("SELECT id FROM products", function (err, results) {
-            let ertek = results[0].id
+           //uncommenting this and changing the results[0] to results[5]
+            for(let i = 0; i < results.length; i++){
+            let ertek = results[i].id
             console.log(ertek)
             db.run(`INSERT INTO inventory (product_id, stock) VALUES ("${ertek}", 18)`)
 
             db.run(`INSERT INTO inventory2 (product_id, stock2) VALUES (${ertek}, 18)`)
+        }
         })
     })
 }
 
-
+module.exports = {
+    creation: creation,
+    category: category,
+    database: database,
+    inventories: inventories,
+}

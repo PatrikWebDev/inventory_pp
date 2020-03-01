@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('inventory45.db')
+const db = new sqlite3.Database('inventoryF.db')
 
 const items = [];
 const groupsarray = [];
@@ -10,6 +10,7 @@ function categorising() {
     db.serialize(function () {
         db.all("SELECT description, identifier from groups", function (err, results) {
             categories = results
+            
         })
     })
     return categories

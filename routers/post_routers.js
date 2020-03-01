@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('inventory45.db')
+const db = new sqlite3.Database('inventoryF.db')
 const uuidv4 = require('uuid/v4');
 function waiting(){}
 
