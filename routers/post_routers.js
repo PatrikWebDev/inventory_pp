@@ -47,7 +47,7 @@ function changes (req,res){
 function deleted (req, res){
 	const {rowid} = req.body;
 	db.serialize(function(){
-		db.run(`DELETE FROM products WHERE  rowid = "${rowid}"`)
+		db.run(`DELETE FROM products WHERE  id = "${rowid}"`)
 	})
 	res.redirect('/products')
 }

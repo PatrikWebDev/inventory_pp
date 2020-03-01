@@ -43,7 +43,7 @@ function stocks(req, res) {
 
 function groups(req, res) {
     db.serialize(function () {
-        db.all("SELECT description, identifier, products.id from groups LEFT JOIN products ON products.category_id = groups.identifier", function (err, results) {
+        db.all("SELECT description, identifier, rowid from groups", function (err, results) {
             if (err != null) {
                 res.send("Missing from database")
             }

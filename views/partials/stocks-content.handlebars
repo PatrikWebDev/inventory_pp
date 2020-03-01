@@ -1,12 +1,17 @@
 <div class="table-responsive">
-    <table class="table table-bordered table-hover">
+     <table class="table table-bordered table-hover" id="table"
+  data-toggle="table"
+   data-sort-name="name"
+  data-sort-order="desc"
+   data-search="true"
+   data-pagination="true">
         <thead class="thead-light">
             <tr>
-                <th class="text-center">ID</th>
-                <th class="text-center">Megnevezés</th>
-                <th class="text-center">Inventory1</th>
-                <th class="text-center">Inventory2</th>
-                <th class="text-center">Műveletek</th>
+                <th class="text-center" data-field="id" data-sortable="true">ID</th>
+                <th class="text-center" data-field="name" data-sortable="true">Megnevezés</th>
+                <th class="text-center" data-field="raktar" data-sortable="true">Inventory1</th>
+                <th class="text-center" data-field="raktar2" data-sortable="true">Inventory2</th>
+                <th class="text-center" data-field="action" data-sortable="false">Műveletek</th>
             </tr>
         </thead>
         <tbody>
