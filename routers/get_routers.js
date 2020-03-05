@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('inventoryF.db')
+const db = new sqlite3.Database('inventoryJ.db')
 
 const items = [];
 const groupsarray = [];
@@ -8,9 +8,12 @@ let categories = [];
 
 function categorising() {
     db.serialize(function () {
-        db.all("SELECT description, identifier from groups", function (err, results) {
+        db.all("SELECT description, identifier, subcategories, scidentifier from groups", function (err, results) {
             categories = results
-            
+            categories.forEach(element =>{
+                element.subcategories = element.subcategories.split(',')
+            })
+           
         })
     })
     return categories
@@ -44,7 +47,7 @@ function stocks(req, res) {
 
 function groups(req, res) {
     db.serialize(function () {
-        db.all("SELECT description, identifier, rowid from groups", function (err, results) {
+        db.all("SELECT description, identifier, rowid, scidentifier, subcategories from groups", function (err, results) {
             if (err != null) {
                 res.send("Missing from database")
             }

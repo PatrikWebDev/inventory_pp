@@ -4,7 +4,6 @@ const hbs = require('express-handlebars');
 const post_router = require('./routers/post_routers');
 const get_router = require('./routers/get_routers');
 
-
 const PORT = 3000;
 const app = express();
 app.use(express.json());

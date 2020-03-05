@@ -1,4 +1,3 @@
-// Indítás előtt a dbinit-ben át kell írni a megjelölt for ciklus értékét
 const dbinit = require('./dbinit')
 const uuidv4 = require('uuid/v4');
 
@@ -16,7 +15,8 @@ for (let i = 0; i <= 9; i++) {
 }
 
 dbinit.creation();
-dbinit.category("Kert", `${uuidv4()}`)
+dbinit.subcategory(["Fű","Növények", "Egyéb"],"Kert", `${uuidv4()}`)
+dbinit.subcategory(["Monitor","Laptop", "Gephaz"],"IT", `${uuidv4()}`)
 combination.forEach(element => {
     dbinit.database(`${element}`, `${element}`);
 });
