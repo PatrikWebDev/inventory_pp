@@ -13,8 +13,9 @@
       </div>
       <div class="modal-body">
         <form method="POST" action="/newgroup">
-        <input type="text" name = "group_dep" value="megnevezés">
-       
+        <input type="text" name = "group_dep" value="megnevezés" required>
+        <label>Alcsoportokat vesszővel elválasztva adjuk meg</label>
+       <input type="text" name = "subgroup_dep" value="alcsoport" required>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

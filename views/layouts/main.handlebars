@@ -13,7 +13,13 @@
 <body class="p-3 mb-2 bg-warning text-dark">
     {{{body}}}
 
-    <script src="./js/jquery.js"></script>
+    <script src="./js/jquery.js">
+    $('option').mousedown(function(e) {
+    e.preventDefault();
+    $(this).prop('selected', !$(this).prop('selected'));
+    return false;
+});
+    </script>
     <script src="./js/popper.js"></script>
     <script src="./js/bootstrap.js"></script>
     <script src="./js/bootstrap-table.js"></script>

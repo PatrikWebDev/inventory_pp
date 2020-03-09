@@ -15,21 +15,17 @@
 <form method="POST" action="/updated">
         <input type="text" name = "itemname" value="megnevezés">
         <div class="dropdown">
-<!--
-<select name="category">
-  {{#each categories}}
-  <option value="{{this.identifier}}">{{{this.description}}}</option>
-  {{/each}}
-</select>-->
-<select name= "category" class="mdb-select md-form" multiple>
+<div class="form-group col-md-8">
+<select name= "category"  class="custom-select my-1 mr-sm-2" multiple>
   {{#each categories}}
   <optgroup label="{{this.description}}">
     {{#each subcategories}}
-    <option value="{{this}}">{{this}}</option>
+    <option value="{{this}}" onclick="selected">{{this}}</option>
     {{/each}}
   </optgroup>
   {{/each}}
 </select>
+</div>
  <br>
 <input type="text" name = "productdescription" value="Leírás">
 </div>

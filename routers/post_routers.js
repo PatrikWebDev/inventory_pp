@@ -25,9 +25,9 @@ function updatedcount (req, res){
         stock = "stock2"
     }
 	db.serialize(function(){
-let sql = `UPDATE ${raktar} SET ${stock} = ${itemcount} WHERE id = ${id} `
+let sql = `UPDATE OR REPLACE ${raktar} SET ${stock} = ${itemcount} WHERE product_id = ${id}`
 console.log(sql)
-		db.run(`${sql} `)
+		db.run(sql)
 	} 
 	)
 	res.redirect('/stocks')
@@ -53,10 +53,13 @@ function deleted (req, res){
 }
 
 function newgroup (req, res){
-	const { group_dep } = req.body
+	const { group_dep, subgroup_dep } = req.body
+	let subgroups = subgroup_dep.split(",")
+	let newidentifier = uuidv4()
 	db.serialize(function(){
-		db.run(`INSERT INTO groups (description, identifier) VALUES ("${group_dep}", "${uuidv4()}")`)
-    })
+		
+		db.run(`INSERT INTO groups (description, identifier, subcategories, scidentifier) VALUES ("${group_dep}", "${newidentifier}", "${subgroups}", "${newidentifier}")`)
+	})
 	res.redirect('/groups')
 }
 
